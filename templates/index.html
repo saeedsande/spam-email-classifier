@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Spam Detection Dashboard</title>
+
+<style>
+
+body{
+background:#0f172a;
+font-family:Segoe UI;
+color:white;
+padding:40px;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:20px;
+margin-bottom:20px;
+}
+
+textarea{
+width:100%;
+height:220px;
+padding:15px;
+border:none;
+border-radius:12px;
+font-size:16px;
+}
+
+button{
+padding:14px 30px;
+background:#3b82f6;
+border:none;
+color:white;
+border-radius:12px;
+font-size:16px;
+cursor:pointer;
+}
+
+.result{
+font-size:22px;
+font-weight:bold;
+}
+
+.spam{
+color:#ef4444;
+}
+
+.ham{
+color:#22c55e;
+}
+
+.progress{
+width:100%;
+background:#334155;
+height:20px;
+border-radius:10px;
+overflow:hidden;
+}
+
+.bar{
+height:100%;
+background:#3b82f6;
+}
+
+.keyword{
+display:inline-block;
+background:#ef4444;
+padding:8px 12px;
+margin:5px;
+border-radius:8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🛡️ AI Spam Email Detection System</h1>
+
+<div class="card">
+
+<form action="/predict" method="POST">
+
+<textarea
+name="email"
+placeholder="Paste Email Content Here..."></textarea>
+
+<br><br>
+
+<button type="submit">
+Analyze Email
+</button>
+
+</form>
+
+</div>
+
+{% if prediction %}
+
+<div class="card">
+
+<div class="result">
+
+Prediction:
+
+<span class="{% if prediction == 'spam' %}spam{% else %}ham{% endif %}">
+
+{{ prediction|upper }}
+
+</span>
+
+</div>
+
+<br>
+
+<h3>Confidence Score</h3>
+
+<div class="progress">
+<div class="bar" style="width:{{confidence}}%"></div>
+</div>
+
+<p>{{confidence}}%</p>
+
+<h3>Suspicious Keywords</h3>
+
+{% for word in keywords %}
+<span class="keyword">{{word}}</span>
+{% endfor %}
+
+</div>
+
+{% endif %}
+
+<div class="card">
+
+<h2>Model Information</h2>
+
+<p>Algorithm: Multinomial Naive Bayes</p>
+<p>Dataset: SMS Spam Collection Dataset</p>
+<p>Messages: 5572</p>
+<p>Expected Accuracy: 96-98%</p>
+
+</div>
+
+</div>
+
+</body>
+</html>
